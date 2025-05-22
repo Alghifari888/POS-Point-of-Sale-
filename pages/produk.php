@@ -80,6 +80,7 @@ if (!$query) {
                                           <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
                                         </svg> Edit
                                     </a>
+                                    {/* Tombol Hapus memanggil fungsi JavaScript yang diperbarui */}
                                     <a href="#" onclick="konfirmasiHapusProduk(<?php echo $produk['id_produk']; ?>, '<?php echo htmlspecialchars(addslashes($produk['nama_produk'])); ?>')" class="btn btn-sm btn-danger mb-1" title="Hapus">
                                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
                                           <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z"/>
@@ -101,14 +102,41 @@ if (!$query) {
 </div>
 
 <script>
-// Fungsi konfirmasi hapus
+// Fungsi konfirmasi hapus yang dimodifikasi untuk menggunakan POST
 function konfirmasiHapusProduk(idProduk, namaProduk) {
     if (confirm(`Apakah Anda yakin ingin menghapus produk "${namaProduk}"? Tindakan ini tidak dapat dibatalkan.`)) {
-        // Arahkan ke skrip proses penghapusan
-        // Kita akan membuat proses_produk.php nanti
-        // Token CSRF perlu ditambahkan ke URL atau menggunakan form POST kecil untuk keamanan
-        const csrfToken = '<?php echo htmlspecialchars(generate_csrf_token()); // Ambil token CSRF terbaru ?>';
-        window.location.href = `../modules/produk/proses_produk.php?aksi=hapus&id=${idProduk}&csrf_token=${csrfToken}`;
+        // Buat form dinamis untuk mengirim data via POST
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '../modules/produk/proses_produk.php'; // Arahkan ke skrip proses
+
+        // Input untuk aksi
+        const inputAksi = document.createElement('input');
+        inputAksi.type = 'hidden';
+        inputAksi.name = 'aksi';
+        inputAksi.value = 'hapus';
+        form.appendChild(inputAksi);
+
+        // Input untuk ID produk
+        const inputId = document.createElement('input');
+        inputId.type = 'hidden';
+        inputId.name = 'id_produk';
+        inputId.value = idProduk;
+        form.appendChild(inputId);
+
+        // Input untuk CSRF token
+        const inputCsrf = document.createElement('input');
+        inputCsrf.type = 'hidden';
+        inputCsrf.name = 'csrf_token';
+        // Pastikan fungsi generate_csrf_token() tersedia dan tokennya valid saat halaman ini dimuat
+        // Fungsi ini berasal dari auth.php yang di-include oleh header.php
+        inputCsrf.value = '<?php echo htmlspecialchars(function_exists("generate_csrf_token") ? generate_csrf_token() : ""); ?>'; 
+        form.appendChild(inputCsrf);
+
+        // Tambahkan form ke body dan submit, lalu hapus form
+        document.body.appendChild(form);
+        form.submit();
+        document.body.removeChild(form);
     }
 }
 </script>
