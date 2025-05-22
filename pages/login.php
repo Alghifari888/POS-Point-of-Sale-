@@ -6,24 +6,85 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-// Sertakan file koneksi database (dibutuhkan untuk proses login nanti)
-// dan auth untuk fungsi CSRF
-require_once '../includes/db.php'; // Path relatif dari /pages/ ke /includes/
-require_once '../includes/auth.php'; // Path relatif dari /pages/ ke /includes/
-
+// Sertakan file koneksi database dan fungsi autentikasi
+require_once '../includes/db.php'; // $koneksi akan tersedia dari sini
+require_once '../includes/auth.php'; // Untuk fungsi CSRF dan lainnya
 
 // Jika pengguna sudah login, arahkan ke dashboard
-if (isset($_SESSION['user_id'])) {
-    header("Location: dashboard.php"); // dashboard.php ada di folder yang sama (/pages/)
+if (is_logged_in()) { // Menggunakan fungsi dari auth.php
+    header("Location: dashboard.php");
     exit;
 }
 
 $error_message = ''; // Variabel untuk menyimpan pesan error
 
-// Logika proses login akan ditambahkan di Langkah 3
-// Untuk sekarang, kita hanya menampilkan form
+// Proses form login jika metode adalah POST
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // 1. Verifikasi CSRF Token
+    if (!isset($_POST['csrf_token']) || !verify_csrf_token($_POST['csrf_token'])) {
+        $error_message = 'Terjadi masalah keamanan (CSRF token tidak valid). Silakan coba lagi.';
+    } else {
+        // 2. Ambil dan sanitasi input (username cukup di-trim)
+        $username = trim($_POST['username']);
+        $password = $_POST['password']; // Password tidak perlu sanitasi khusus sebelum password_verify
 
-// Generate CSRF token untuk form login
+        // 3. Validasi dasar input server-side
+        if (empty($username) || empty($password)) {
+            $error_message = 'Username dan password tidak boleh kosong.';
+        } else {
+            // 4. Ambil data pengguna dari database menggunakan prepared statement
+            $sql = "SELECT id_user, username, password, nama_lengkap, role FROM users WHERE username = ?";
+            $stmt = mysqli_prepare($koneksi, $sql);
+            
+            if ($stmt) {
+                mysqli_stmt_bind_param($stmt, "s", $username);
+                mysqli_stmt_execute($stmt);
+                $result = mysqli_stmt_get_result($stmt);
+                $user = mysqli_fetch_assoc($result);
+                mysqli_stmt_close($stmt);
+
+                if ($user) {
+                    // 5. Verifikasi password
+                    if (password_verify($password, $user['password'])) {
+                        // 6. Password cocok, login berhasil!
+                        session_regenerate_id(true); // Regenerasi ID session untuk keamanan
+
+                        // Simpan informasi pengguna ke session
+                        $_SESSION['user_id'] = $user['id_user'];
+                        $_SESSION['username'] = $user['username'];
+                        $_SESSION['nama_lengkap'] = $user['nama_lengkap'];
+                        $_SESSION['role'] = $user['role'];
+                        
+                        // Hapus CSRF token dari session setelah berhasil login
+                        unset($_SESSION['csrf_token']); 
+
+                        // Arahkan ke dashboard
+                        header("Location: dashboard.php");
+                        exit;
+                    } else {
+                        // Password tidak cocok
+                        $error_message = 'Username atau password salah.';
+                    }
+                } else {
+                    // Username tidak ditemukan
+                    $error_message = 'Username atau password salah.';
+                }
+            } else {
+                // Error pada prepared statement
+                $error_message = 'Terjadi kesalahan pada sistem. Silakan coba lagi nanti.';
+                // Sebaiknya log error ini: mysqli_error($koneksi)
+            }
+        }
+    }
+    // Setelah proses POST, selalu generate ulang CSRF token untuk form jika ada error
+    // karena token lama mungkin sudah tidak valid atau untuk keamanan tambahan.
+    // Namun, karena kita redirect atau exit, token baru akan digenerate saat halaman login dimuat ulang.
+    // Jika tidak redirect dan hanya menampilkan error di halaman yang sama, maka perlu:
+    // unset($_SESSION['csrf_token']); // Agar yang baru digenerate di bawah
+}
+
+// Selalu generate CSRF token untuk form login jika belum ada atau setelah diproses
+// (Fungsi generate_csrf_token() di auth.php sudah menangani jika sudah ada)
 $csrf_token = generate_csrf_token();
 
 ?>
@@ -68,7 +129,7 @@ $csrf_token = generate_csrf_token();
                 </div>
             <?php endif; ?>
 
-            <form action="login_process.php" method="POST">
+            <form action="login.php" method="POST">
                 <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token); ?>">
                 <div class="mb-3">
                     <label for="username" class="form-label">Username</label>
@@ -82,7 +143,7 @@ $csrf_token = generate_csrf_token();
                     <button type="submit" class="btn btn-primary">Login</button>
                 </div>
             </form>
-            </div>
+        </div>
     </div>
 
     <script src="../assets/bootstrap/js/bootstrap.bundle.min.js"></script>
