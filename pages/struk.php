@@ -184,11 +184,19 @@ if (!function_exists('formatRupiahStruk')) {
                 margin: 5mm; 
             }
         }
+
+       
+        .header-toko .logo-struk {
+            max-height: 50px; /* Batasi tinggi logo di struk */
+            max-width: 150px; /* Batasi lebar logo di struk */
+            margin-bottom: 5px;
+        }
     </style>
 </head>
 <body>
     <div class="struk-container">
         <div class="header-toko">
+            
             <h1><?php echo htmlspecialchars($pengaturan_toko['nama_toko']); ?></h1>
             <p><?php echo htmlspecialchars($pengaturan_toko['alamat_toko']); ?></p>
             <?php if (!empty($pengaturan_toko['telepon_toko'])): ?>
