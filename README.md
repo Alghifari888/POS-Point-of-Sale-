@@ -2,7 +2,6 @@
 
 Ini adalah aplikasi Point of Sale (POS) berbasis web yang dibangun secara native menggunakan PHP, JavaScript vanilla, Bootstrap 5, dan MySQL. Aplikasi ini dirancang untuk membantu dalam manajemen penjualan, produk, pengguna, dan laporan transaksi dasar.
 
-Proyek ini dikembangkan secara kolaboratif dengan bantuan "Partner Coding" dari Google.
 
 ## Fitur Utama
 
@@ -44,18 +43,7 @@ Proyek ini dikembangkan secara kolaboratif dengan bantuan "Partner Coding" dari 
 * **Database:** MySQL
 * **Server Web (Lingkungan Pengembangan):** XAMPP / Laragon (atau sejenisnya yang mendukung Apache dan MySQL)
 
-## Struktur Folder Utama
 
-/pos-website/
-├── /assets/              # File statis (CSS, JS, Bootstrap)
-├── /includes/            # File-file PHP yang di-include (koneksi DB, auth, header, sidebar, footer)
-├── /modules/             # Skrip PHP untuk memproses logika backend (produk, transaksi, user, pengaturan, laporan)
-├── /pages/               # File-file PHP untuk halaman utama yang diakses pengguna (login, dashboard, produk, dll.)
-├── /uploads/
-│   └── /logo/            # Tempat menyimpan file logo toko yang diunggah
-├── .htaccess             # Aturan keamanan dan konfigurasi server (di root dan subfolder tertentu)
-├── index.php             # File utama yang mengarahkan pengguna
-├── README.md             # File ini
 └── (file lainnya seperti logout.php)
 
 
