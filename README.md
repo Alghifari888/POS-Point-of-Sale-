@@ -2,6 +2,10 @@
 
 Ini adalah aplikasi Point of Sale (POS) berbasis web yang dibangun secara native menggunakan PHP, JavaScript vanilla, Bootstrap 5, dan MySQL. Aplikasi ini dirancang untuk membantu dalam manajemen penjualan, produk, pengguna, dan laporan transaksi dasar.
 
+## ✨ Kutipan
+
+> *"Aku tidak berilmu; yang berilmu hanyalah DIA. Jika tampak ilmu dariku, itu hanyalah pantulan dari Cahaya-Nya."*
+
 
 ## Fitur Utama
 
@@ -44,7 +48,20 @@ Ini adalah aplikasi Point of Sale (POS) berbasis web yang dibangun secara native
 * **Server Web (Lingkungan Pengembangan):** XAMPP / Laragon (atau sejenisnya yang mendukung Apache dan MySQL)
 
 
-└── (file lainnya seperti logout.php)
+## 🧠 Credits
+
+Dibuat oleh [@Alghifari888](https://github.com/Alghifari888) sebagai project belajar dan open-source.
+
+---
+
+## 🌟 License
+
+MIT License. Bebas digunakan untuk belajar, proyek pribadi, atau dikembangkan.
+
+**Selamat belajar dan semoga bermanfaat!**  
+✨ Kalau project ini membantu, boleh kasih ⭐ di GitHub ya!
+
+
 
 
 
