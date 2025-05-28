@@ -151,5 +151,8 @@ $result_transaksi = mysqli_stmt_get_result($stmt_transaksi);
 
 <?php
 mysqli_stmt_close($stmt_transaksi); // Tutup statement setelah selesai digunakan
+?>
+
+<?php
 require_once '../includes/footer.php';
 ?>
