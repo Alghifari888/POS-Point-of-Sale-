@@ -50,11 +50,7 @@ body {
 }
 
 /* Penyesuaian padding untuk konten di dalam wrapper agar lebih rapi */
-#content-inside-wrapper {
-    /* Class p-4 dari Bootstrap sudah memberikan padding.
-       Jika perlu override, bisa di sini. Misal:
-       padding: 1.5rem; */
-}
+
 
 /* Menghilangkan padding horizontal default dari .container-fluid jika ia anak langsung 
    dari #content-inside-wrapper agar konten bisa menempel ke tepi jika diinginkan.
