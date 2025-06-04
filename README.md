@@ -6,6 +6,9 @@ Ini adalah aplikasi Point of Sale (POS) berbasis web yang dibangun secara native
 
 > *"Aku tidak berilmu; yang berilmu hanyalah DIA. Jika tampak ilmu dariku, itu hanyalah pantulan dari Cahaya-Nya."*
 
+## 🎥 Demo
+![Demo](./videoujicoba.gif)
+
 
 ## Fitur Utama
 
