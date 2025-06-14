@@ -57,9 +57,6 @@ Dibuat oleh [@Alghifari888](https://github.com/Alghifari888) sebagai project bel
 
 ---
 
-## 🌟 License
-
-MIT License. Bebas digunakan untuk belajar, proyek pribadi, atau dikembangkan.
 
 **Selamat belajar dan semoga bermanfaat!**  
 ✨ Kalau project ini membantu, boleh kasih ⭐ di GitHub ya!
