@@ -6,6 +6,9 @@ Ini adalah aplikasi Point of Sale (POS) berbasis web yang dibangun secara native
 
 > *"Aku tidak berilmu; yang berilmu hanyalah DIA. Jika tampak ilmu dariku, itu hanyalah pantulan dari Cahaya-Nya."*
 
+## 🎥 Demo
+![Demo](./videoujicoba.gif)
+
 
 ## Fitur Utama
 
@@ -54,9 +57,6 @@ Dibuat oleh [@Alghifari888](https://github.com/Alghifari888) sebagai project bel
 
 ---
 
-## 🌟 License
-
-MIT License. Bebas digunakan untuk belajar, proyek pribadi, atau dikembangkan.
 
 **Selamat belajar dan semoga bermanfaat!**  
 ✨ Kalau project ini membantu, boleh kasih ⭐ di GitHub ya!
